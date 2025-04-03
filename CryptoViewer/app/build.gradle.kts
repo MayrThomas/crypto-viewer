@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.kapt)
+//    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -21,6 +23,12 @@ android {
     }
 
     buildTypes {
+        defaultConfig {
+            buildConfigField("String", "API_BASE_URL", "\"https://api.coingecko.com/api/v3/\"")
+            buildConfigField("String", "API_KEY", gradleLocalProperties(rootDir, providers).getProperty("api_key"))
+        }
+
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -60,6 +68,15 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //modules
-    project(":core:network")
+    //hilt
+    implementation(libs.dagger.android)
+    implementation(libs.dagger.android.support)
+    implementation(libs.hilt.android)
+
+    //retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    //okhttp
+    implementation(libs.okhttp)
 }

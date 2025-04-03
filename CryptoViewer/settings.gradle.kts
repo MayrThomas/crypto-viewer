@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Crypto Viewer"
 include(":app")
-include(":core:network")
