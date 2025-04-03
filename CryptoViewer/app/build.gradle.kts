@@ -79,4 +79,7 @@ dependencies {
 
     //okhttp
     implementation(libs.okhttp)
+
+    //lottie
+    implementation(libs.lottie.compose)
 }

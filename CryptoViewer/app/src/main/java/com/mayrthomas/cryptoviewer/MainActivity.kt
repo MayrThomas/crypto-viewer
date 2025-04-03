@@ -25,6 +25,8 @@ import com.mayrthomas.cryptoviewer.data.CoinRepository
 import com.mayrthomas.cryptoviewer.data.CoinRepositoryImpl
 import com.mayrthomas.cryptoviewer.model.BaseCoin
 import com.mayrthomas.cryptoviewer.network.RetrofitBuilder
+import com.mayrthomas.cryptoviewer.ui.coins.CoinsScreen
+import com.mayrthomas.cryptoviewer.ui.coins.CoinsViewmodel
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -40,36 +42,9 @@ class MainActivity : ComponentActivity() {
         val coinRepository = CoinRepositoryImpl(RetrofitBuilder.createRetrofit())
 
         setContent {
-            var coins = remember { mutableStateListOf<BaseCoin>() }
-
-            LaunchedEffect(tmp) {
-                coinRepository.getCoins().collectLatest { coinList ->
-                    Log.d("CoinFlow", "coinList size: ${coinList.size}")
-                    coins.addAll(coinList)
-                }
-            }
-
             CryptoViewerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Greeting(
-                            name = "Android",
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                        LazyColumn {
-                            items(coins) { coin ->
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    Text(text = coin.symbol)
-                                    Text(text = coin.name)
-                                }
-                            }
-                        }
-                    }
+                    CoinsScreen(innerPadding, CoinsViewmodel(coinRepository))
                 }
             }
         }

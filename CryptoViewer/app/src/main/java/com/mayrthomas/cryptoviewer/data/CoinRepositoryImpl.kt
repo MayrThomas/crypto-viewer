@@ -1,6 +1,7 @@
 package com.mayrthomas.cryptoviewer.data
 
 import com.mayrthomas.cryptoviewer.model.BaseCoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
@@ -12,6 +13,7 @@ class CoinRepositoryImpl @Inject constructor(private val retrofit: Retrofit): Co
     private val coinApi: CoinApi = retrofit.create(CoinApi::class.java)
 
     override fun getCoins(): Flow<List<BaseCoin>> = flow {
+        delay(2000)
         val coins = coinApi.getCoinsList()
         emit(coins)
     }
