@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
@@ -45,15 +44,16 @@ class FavoriteRepositoryImpl(private val favoritesDataStoreManager: FavoritesDat
     override suspend fun removeFromFavorites(coin: BaseCoin): Boolean {
         try {
             // get current favorites
-            val current = Json.decodeFromString<MutableList<BaseCoin>>(favoritesDataStoreManager.getFavoritesList().single())
+            val current = favoritesDataStoreManager.getFavoritesList().first()
+            val currentList = Json.decodeFromString<MutableList<BaseCoin>>(current)
 
             // remove coin from list if it exists
-            if(!current.contains(coin)) return false
+            if(!currentList.contains(coin)) return false
 
-            current.remove(coin)
+            currentList.remove(coin)
 
             // parse to string
-            val coins = Json.encodeToString(current)
+            val coins = Json.encodeToString(currentList)
 
             // save new list
             return favoritesDataStoreManager.saveFavouritesList(coins)
