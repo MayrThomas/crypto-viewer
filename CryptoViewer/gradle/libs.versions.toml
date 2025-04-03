@@ -1,5 +1,7 @@
 [versions]
 agp = "8.9.0"
+coilCompose = "3.1.0"
+coilNetworkOkhttp = "3.1.0"
 kotlin = "2.0.21"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -13,15 +15,12 @@ lottieCompose = "4.0.0"
 material = "1.10.0"
 okhttp = "4.9.1"
 retrofit = "2.7.2"
-dagger = "2.54"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-dagger-android = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }
-dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -47,5 +46,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 

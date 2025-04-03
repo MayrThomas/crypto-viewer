@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
-//    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -68,11 +67,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //hilt
-    implementation(libs.dagger.android)
-    implementation(libs.dagger.android.support)
-    implementation(libs.hilt.android)
-
     //retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
@@ -82,4 +76,8 @@ dependencies {
 
     //lottie
     implementation(libs.lottie.compose)
+
+    //coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }

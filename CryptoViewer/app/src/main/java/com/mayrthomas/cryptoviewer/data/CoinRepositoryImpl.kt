@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
 import retrofit2.http.GET
-import javax.inject.Inject
 
-class CoinRepositoryImpl @Inject constructor(private val retrofit: Retrofit): CoinRepository {
+class CoinRepositoryImpl (private val retrofit: Retrofit): CoinRepository {
 
     private val coinApi: CoinApi = retrofit.create(CoinApi::class.java)
 
     override fun getCoins(): Flow<List<BaseCoin>> = flow {
+        // delay added to check loading animation
         delay(2000)
         val coins = coinApi.getCoinsList()
         emit(coins)
