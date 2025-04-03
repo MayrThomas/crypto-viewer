@@ -17,6 +17,7 @@ import com.mayrthomas.cryptoviewer.storage.FavoritesDataStoreManager
 import com.mayrthomas.cryptoviewer.ui.coins.CoinsScreen
 import com.mayrthomas.cryptoviewer.ui.coins.CoinsViewmodel
 import com.mayrthomas.cryptoviewer.ui.favorite.FavoriteScreen
+import com.mayrthomas.cryptoviewer.ui.favorite.FavoritesViewModel
 import com.mayrthomas.cryptoviewer.ui.navigation.Screen
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 import com.mayrthomas.cryptoviewer.ui.views.CVNavigationBar
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
                             CoinsScreen(innerPadding, CoinsViewmodel(coinRepository, favoriteRepository))
                         }
                         composable(route = Screen.Favorites.route) {
-                            FavoriteScreen(innerPadding)
+                            FavoriteScreen(innerPadding, FavoritesViewModel(favoriteRepository))
                         }
                     }
                 }
