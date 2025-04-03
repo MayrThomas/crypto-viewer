@@ -36,14 +36,19 @@ fun CoinsScreen(padding: PaddingValues, viewmodel: CoinsViewmodel) {
            is CoinsUiState.Error -> {}
            is CoinsUiState.Success -> {
 
-               val coins = (uiState.value as CoinsUiState.Success).list
+               val coins = (uiState.value as CoinsUiState.Success).coins
+               val favorites = (uiState.value as CoinsUiState.Success).favorites
 
                LazyColumn(
                    modifier = Modifier.fillMaxSize().padding(16.dp),
                    verticalArrangement = Arrangement.spacedBy(24.dp)
                ) {
                    items(coins) { coin ->
-                        CoinListItem(coin)
+                        val isFavorite = favorites.contains(coin.id)
+                        CoinListItem(coin, isFavorite) {
+                            if (isFavorite) viewmodel.removeAsFavorite(coin)
+                            else viewmodel.addAsFavorite(coin)
+                        }
                    }
                }
            }

@@ -10,9 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.createGraph
 import com.mayrthomas.cryptoviewer.data.CoinRepositoryImpl
+import com.mayrthomas.cryptoviewer.data.FavoriteRepositoryImpl
 import com.mayrthomas.cryptoviewer.network.RetrofitBuilder
+import com.mayrthomas.cryptoviewer.storage.FavoritesDataStoreManager
 import com.mayrthomas.cryptoviewer.ui.coins.CoinsScreen
 import com.mayrthomas.cryptoviewer.ui.coins.CoinsViewmodel
 import com.mayrthomas.cryptoviewer.ui.favorite.FavoriteScreen
@@ -25,9 +26,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val tmp = true
-
+        // TODO add dependency injection
         val coinRepository = CoinRepositoryImpl(RetrofitBuilder.createRetrofit())
+        val favoriteRepository = FavoriteRepositoryImpl(FavoritesDataStoreManager(baseContext))
 
         setContent {
             val navController = rememberNavController()
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.Coins.route
                     ) {
                         composable(route = Screen.Coins.route) {
-                            CoinsScreen(innerPadding, CoinsViewmodel(coinRepository))
+                            CoinsScreen(innerPadding, CoinsViewmodel(coinRepository, favoriteRepository))
                         }
                         composable(route = Screen.Favorites.route) {
                             FavoriteScreen(innerPadding)

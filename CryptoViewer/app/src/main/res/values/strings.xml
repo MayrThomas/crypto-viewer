@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Crypto Viewer</string>
+    <string name="favorite_icon">Favorite Icon</string>
 </resources>

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
+    kotlin("plugin.serialization") version "2.1.20"
 }
 
 android {
@@ -25,6 +26,7 @@ android {
         defaultConfig {
             buildConfigField("String", "API_BASE_URL", "\"https://api.coingecko.com/api/v3/\"")
             buildConfigField("String", "API_KEY", gradleLocalProperties(rootDir, providers).getProperty("api_key"))
+            buildConfigField("String", "FAVORITES_PREFS_FILE_NAME", "\"crypt_viewer_favorites\"")
         }
 
 
@@ -83,4 +85,11 @@ dependencies {
 
     //compose navigation
     implementation(libs.androidx.navigation.compose)
+
+    //datastore
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preferences)
+
+    //kotlin serialization
+    implementation(libs.kotlinx.serialization.json)
 }
