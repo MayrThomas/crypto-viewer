@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Crypto Viewer</string>
     <string name="favorite_icon">Favorite Icon</string>
+    <string name="no_favorites">No favorites added yet</string>
+    <string name="navigation_coins">Coins</string>
+    <string name="navigation_favorite">Favorites</string>
 </resources>

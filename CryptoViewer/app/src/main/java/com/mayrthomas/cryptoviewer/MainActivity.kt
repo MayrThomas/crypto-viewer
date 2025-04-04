@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,6 +24,7 @@ import com.mayrthomas.cryptoviewer.ui.coins.CoinsViewModel
 import com.mayrthomas.cryptoviewer.ui.favorite.FavoriteScreen
 import com.mayrthomas.cryptoviewer.ui.favorite.FavoritesViewModel
 import com.mayrthomas.cryptoviewer.ui.navigation.Screen
+import com.mayrthomas.cryptoviewer.ui.navigation.navigationItems
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 import com.mayrthomas.cryptoviewer.ui.views.CVNavigationBar
 
@@ -37,24 +40,34 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
+            val selectedNavigationIndex = rememberSaveable {
+                mutableIntStateOf(0)
+            }
+
             CryptoViewerTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    bottomBar = { CVNavigationBar(navController) }
+                    bottomBar = { CVNavigationBar(navController, selectedNavigationIndex) }
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
                         startDestination = Screen.Coins.route
                     ) {
                         composable(route = Screen.Coins.route) {
-                            CoinsScreen(innerPadding, CoinsViewModel(coinRepository, favoriteRepository)) { id ->
+                            CoinsScreen(innerPadding, CoinsViewModel(coinRepository)) { id ->
                                 navController.navigate(Screen.CoinDetail(id))
                             }
                         }
                         composable(route = Screen.Favorites.route) {
-                            FavoriteScreen(innerPadding, FavoritesViewModel(favoriteRepository)) { id ->
-                                navController.navigate(Screen.CoinDetail(id))
-                            }
+                            FavoriteScreen(
+                                innerPadding,
+                                FavoritesViewModel(favoriteRepository),
+                                goToOverviewClicked = {
+                                    selectedNavigationIndex.intValue = navigationItems.indexOfFirst { it.route == Screen.Coins.route }
+                                    navController.navigate(Screen.Coins.route)
+                                },
+                                onItemClicked = { id ->  navController.navigate(Screen.CoinDetail(id)) }
+                            )
                         }
                         composable<Screen.CoinDetail> { backStackEntry ->
                             val route = backStackEntry.toRoute<Screen.CoinDetail>()

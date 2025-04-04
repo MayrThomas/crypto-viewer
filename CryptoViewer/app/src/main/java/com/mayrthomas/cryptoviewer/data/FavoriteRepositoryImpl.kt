@@ -17,7 +17,11 @@ class FavoriteRepositoryImpl(private val favoritesDataStoreManager: FavoritesDat
                 emit("")
             }
             .map { favorites ->
-                Json.decodeFromString<List<BaseCoin>>(favorites)
+                try {
+                    Json.decodeFromString<List<BaseCoin>>(favorites)
+                } catch (ex: Exception) {
+                    emptyList()
+                }
             }
     }
 

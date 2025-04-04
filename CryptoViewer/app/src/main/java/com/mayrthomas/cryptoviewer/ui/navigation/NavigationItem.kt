@@ -1,9 +1,10 @@
 package com.mayrthomas.cryptoviewer.ui.navigation
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class NavigationItem(
-    val title: String,
+    @StringRes val title: Int,
     val icon: ImageVector,
     val route: String
 )

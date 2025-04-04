@@ -1,25 +1,25 @@
 package com.mayrthomas.cryptoviewer.ui.views
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -30,40 +30,51 @@ import com.mayrthomas.cryptoviewer.model.BaseCoin
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 
 @Composable
-fun CoinListItem(
-    coin: BaseCoin,
-    isFavorite: Boolean,
-    onItemClicked: (String) -> Unit,
-    onFavoriteClicked: (BaseCoin) -> Unit) {
-    Row(
+fun CoinListItem(coin: BaseCoin, isFirst: Boolean, isLast: Boolean, onItemClicked: (String) -> Unit) {
+    Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onItemClicked(coin.id) },
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxWidth(),
+        onClick = { onItemClicked(coin.id) },
+        shape = if(isFirst)
+                    RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+                else if (isLast)
+                    RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)
+                else
+                    RectangleShape
     ) {
-        AsyncImage(
-            ImageRequest.Builder(LocalContext.current)
-                .data(coin.image)
-                .memoryCachePolicy(CachePolicy.ENABLED)
-                .build(),
-            contentDescription = "${coin.name} logo",
-            placeholder = painterResource(R.drawable.image_loading),
-            modifier = Modifier.size(40.dp)
-        )
-        Text(coin.symbol)
-        Text(coin.name)
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        IconButton(
-            onClick = { onFavoriteClicked(coin) },
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = stringResource(R.string.favorite_icon)
+            AsyncImage(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(coin.image)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .build(),
+                contentDescription = "${coin.name} logo",
+                placeholder = painterResource(R.drawable.image_loading),
+                modifier = Modifier.size(40.dp).clip(CircleShape)
             )
+
+            Column {
+                Text(if(coin.name.length < 20) coin.name else "${coin.name.take(20)}...")
+                Text(coin.currentPrice.toString())
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Column(
+                modifier = Modifier.padding(end = 8.dp)
+            ) {
+                Text(coin.symbol)
+                Text(
+                    coin.priceChangePercentage24h.toString(),
+                    color = if(coin.priceChangePercentage24h < 0) Color.Red else Color.Green
+                )
+            }
         }
     }
 }
@@ -78,9 +89,11 @@ fun CoinListItemPreview() {
                     "id",
                     "TST",
                     "Test Coin",
+                    1000f,
+                    3.0025f,
                     ""),
                 false,
-                onItemClicked = { }
+                false,
             ) {}
         }
     }
