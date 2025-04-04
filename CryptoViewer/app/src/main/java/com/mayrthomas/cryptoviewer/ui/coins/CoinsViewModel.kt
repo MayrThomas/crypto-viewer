@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class CoinsViewmodel(private val coinRepository: CoinRepository, private val favoriteRepository: FavoriteRepository): ViewModel() {
+class CoinsViewModel(private val coinRepository: CoinRepository, private val favoriteRepository: FavoriteRepository): ViewModel() {
     private val _uiState = MutableStateFlow<CoinsUiState>(CoinsUiState.Loading)
     var uiState: StateFlow<CoinsUiState> = _uiState.asStateFlow()
 

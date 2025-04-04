@@ -18,7 +18,11 @@ import com.mayrthomas.cryptoviewer.ui.views.AnimatedPreloader
 import com.mayrthomas.cryptoviewer.ui.views.CoinListItem
 
 @Composable
-fun CoinsScreen(padding: PaddingValues, viewmodel: CoinsViewmodel) {
+fun CoinsScreen(
+    padding: PaddingValues,
+    viewmodel: CoinsViewModel,
+    onItemClicked: (String) -> Unit
+) {
     val uiState = viewmodel.uiState.collectAsStateWithLifecycle()
 
     Box(
@@ -45,7 +49,7 @@ fun CoinsScreen(padding: PaddingValues, viewmodel: CoinsViewmodel) {
                ) {
                    items(coins) { coin ->
                         val isFavorite = favorites.contains(coin.id)
-                        CoinListItem(coin, isFavorite) {
+                        CoinListItem(coin, isFavorite, onItemClicked) {
                             if (isFavorite) viewmodel.removeAsFavorite(coin)
                             else viewmodel.addAsFavorite(coin)
                         }

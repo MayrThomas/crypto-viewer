@@ -10,12 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.mayrthomas.cryptoviewer.data.CoinRepositoryImpl
 import com.mayrthomas.cryptoviewer.data.FavoriteRepositoryImpl
 import com.mayrthomas.cryptoviewer.network.RetrofitBuilder
 import com.mayrthomas.cryptoviewer.storage.FavoritesDataStoreManager
+import com.mayrthomas.cryptoviewer.ui.coindetail.CoinDetailScreen
+import com.mayrthomas.cryptoviewer.ui.coindetail.CoinDetailViewModel
 import com.mayrthomas.cryptoviewer.ui.coins.CoinsScreen
-import com.mayrthomas.cryptoviewer.ui.coins.CoinsViewmodel
+import com.mayrthomas.cryptoviewer.ui.coins.CoinsViewModel
 import com.mayrthomas.cryptoviewer.ui.favorite.FavoriteScreen
 import com.mayrthomas.cryptoviewer.ui.favorite.FavoritesViewModel
 import com.mayrthomas.cryptoviewer.ui.navigation.Screen
@@ -44,10 +47,18 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.Coins.route
                     ) {
                         composable(route = Screen.Coins.route) {
-                            CoinsScreen(innerPadding, CoinsViewmodel(coinRepository, favoriteRepository))
+                            CoinsScreen(innerPadding, CoinsViewModel(coinRepository, favoriteRepository)) { id ->
+                                navController.navigate(Screen.CoinDetail(id))
+                            }
                         }
                         composable(route = Screen.Favorites.route) {
-                            FavoriteScreen(innerPadding, FavoritesViewModel(favoriteRepository))
+                            FavoriteScreen(innerPadding, FavoritesViewModel(favoriteRepository)) { id ->
+                                navController.navigate(Screen.CoinDetail(id))
+                            }
+                        }
+                        composable<Screen.CoinDetail> { backStackEntry ->
+                            val route = backStackEntry.toRoute<Screen.CoinDetail>()
+                            CoinDetailScreen(innerPadding, CoinDetailViewModel(coinRepository, route.coinID))
                         }
                     }
                 }

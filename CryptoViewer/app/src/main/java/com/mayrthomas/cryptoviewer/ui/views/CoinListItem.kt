@@ -1,5 +1,6 @@
 package com.mayrthomas.cryptoviewer.ui.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,9 +30,16 @@ import com.mayrthomas.cryptoviewer.model.BaseCoin
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 
 @Composable
-fun CoinListItem(coin: BaseCoin, isFavorite: Boolean, onFavoriteClicked: (BaseCoin) -> Unit) {
+fun CoinListItem(
+    coin: BaseCoin,
+    isFavorite: Boolean,
+    onItemClicked: (String) -> Unit,
+    onFavoriteClicked: (BaseCoin) -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onItemClicked(coin.id) },
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -71,7 +79,8 @@ fun CoinListItemPreview() {
                     "TST",
                     "Test Coin",
                     ""),
-                false
+                false,
+                onItemClicked = { }
             ) {}
         }
     }
