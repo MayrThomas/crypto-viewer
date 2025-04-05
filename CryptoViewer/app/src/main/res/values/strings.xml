@@ -4,4 +4,39 @@
     <string name="no_favorites">No favorites added yet</string>
     <string name="navigation_coins">Coins</string>
     <string name="navigation_favorite">Favorites</string>
+
+    <!--  arrays  -->
+    <string-array name="currency_codes">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>JPY</item>
+        <item>AUD</item>
+        <item>CAD</item>
+        <item>CHF</item>
+        <item>CNY</item>
+        <item>INR</item>
+    </string-array>
+    <string-array name="currency_names">
+        <item>United States Dollar</item>
+        <item>Euro</item>
+        <item>British Pound Sterling</item>
+        <item>Japanese Yen</item>
+        <item>Australian Dollar</item>
+        <item>Canadian Dollar</item>
+        <item>Swiss Franc</item>
+        <item>Chinese Yuan</item>
+        <item>Indian Rupee</item>
+    </string-array>
+    <string-array name="currency_symbol">
+        <item>$</item>
+        <item>€</item>
+        <item>£</item>
+        <item>¥</item>
+        <item>$</item>
+        <item>$</item>
+        <item>CHF</item>
+        <item>¥</item>
+        <item>₹</item>
+    </string-array>
 </resources>
