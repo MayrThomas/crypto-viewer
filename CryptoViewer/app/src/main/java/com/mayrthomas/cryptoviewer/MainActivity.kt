@@ -17,6 +17,7 @@ import com.mayrthomas.cryptoviewer.data.CoinRepositoryImpl
 import com.mayrthomas.cryptoviewer.data.FavoriteRepositoryImpl
 import com.mayrthomas.cryptoviewer.network.RetrofitBuilder
 import com.mayrthomas.cryptoviewer.storage.FavoritesDataStoreManager
+import com.mayrthomas.cryptoviewer.storage.UserPreferencesDataStoreManager
 import com.mayrthomas.cryptoviewer.ui.coindetail.CoinDetailScreen
 import com.mayrthomas.cryptoviewer.ui.coindetail.CoinDetailViewModel
 import com.mayrthomas.cryptoviewer.ui.coins.CoinsScreen
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         // TODO add dependency injection
+        val userPreferencesDataStoreManager = UserPreferencesDataStoreManager(baseContext)
         val coinRepository = CoinRepositoryImpl(RetrofitBuilder.createRetrofit())
         val favoriteRepository = FavoriteRepositoryImpl(FavoritesDataStoreManager(baseContext))
 
@@ -54,7 +56,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.Coins.route
                     ) {
                         composable(route = Screen.Coins.route) {
-                            CoinsScreen(innerPadding, CoinsViewModel(coinRepository)) { id ->
+                            CoinsScreen(innerPadding, CoinsViewModel(coinRepository, userPreferencesDataStoreManager)) { id ->
                                 navController.navigate(Screen.CoinDetail(id))
                             }
                         }

@@ -1,15 +1,17 @@
 package com.mayrthomas.cryptoviewer.ui.coins
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mayrthomas.cryptoviewer.data.CoinRepository
+import com.mayrthomas.cryptoviewer.storage.UserPreferencesDataStoreManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class CoinsViewModel(private val coinRepository: CoinRepository): ViewModel() {
+class CoinsViewModel(private val coinRepository: CoinRepository, userPreferencesDataStoreManager: UserPreferencesDataStoreManager): ViewModel() {
     private val _uiState = MutableStateFlow<CoinsUiState>(CoinsUiState.Loading)
     var uiState: StateFlow<CoinsUiState> = _uiState.asStateFlow()
 
@@ -18,7 +20,12 @@ class CoinsViewModel(private val coinRepository: CoinRepository): ViewModel() {
         _uiState.value = CoinsUiState.Loading
         viewModelScope.launch {
             try {
-                coinRepository.getCoins().collectLatest {
+                val currencyKey = userPreferencesDataStoreManager
+                    .getStringPreference(UserPreferencesDataStoreManager.CURRENCY_KEY)
+
+                Log.w("CURRENCY", currencyKey)
+
+                coinRepository.getCoins(currencyKey).collectLatest {
                     _uiState.value = CoinsUiState.Success(it)
                 }
 

@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 class FavoritesDataStoreManager(private val context: Context) {
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = BuildConfig.FAVORITES_PREFS_FILE_NAME)
+    private val Context.favoritesDataStore: DataStore<Preferences> by preferencesDataStore(name = BuildConfig.FAVORITES_PREFS_FILE_NAME)
 
     companion object {
         private var favoritesList = stringPreferencesKey("favorites")
     }
 
     fun getFavoritesList(): Flow<String> {
-        return context.dataStore.data.catch {
+        return context.favoritesDataStore.data.catch {
             emit(emptyPreferences())
         }.map { preferences: Preferences ->
             preferences[favoritesList] ?: ""
@@ -30,7 +30,7 @@ class FavoritesDataStoreManager(private val context: Context) {
 
     suspend fun saveFavouritesList(coins: String): Boolean {
         try {
-            context.dataStore.edit { mutablePreferences: MutablePreferences ->
+            context.favoritesDataStore.edit { mutablePreferences: MutablePreferences ->
                 mutablePreferences[favoritesList] = coins
             }
             return true

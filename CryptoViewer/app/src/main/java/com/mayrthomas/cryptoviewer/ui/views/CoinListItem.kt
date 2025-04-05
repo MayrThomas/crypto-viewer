@@ -71,7 +71,7 @@ fun CoinListItem(coin: BaseCoin, isFirst: Boolean, isLast: Boolean, onItemClicke
             ) {
                 Text(coin.symbol)
                 Text(
-                    coin.priceChangePercentage24h.toString(),
+                    "${coin.priceChangePercentage24h} %",
                     color = if(coin.priceChangePercentage24h < 0) Color.Red else Color.Green
                 )
             }

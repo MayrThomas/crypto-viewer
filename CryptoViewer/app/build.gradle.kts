@@ -27,6 +27,7 @@ android {
             buildConfigField("String", "API_BASE_URL", "\"https://api.coingecko.com/api/v3/\"")
             buildConfigField("String", "API_KEY", gradleLocalProperties(rootDir, providers).getProperty("api_key"))
             buildConfigField("String", "FAVORITES_PREFS_FILE_NAME", "\"crypt_viewer_favorites\"")
+            buildConfigField("String", "USER_PREFS_FILE_NAME", "\"crypt_viewer_user_preferences\"")
         }
 
 
@@ -75,6 +76,7 @@ dependencies {
 
     //okhttp
     implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     //lottie
     implementation(libs.lottie.compose)
