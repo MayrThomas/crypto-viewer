@@ -1,4 +1,4 @@
-package com.mayrthomas.cryptoviewer.ui.coindetail
+package com.mayrthomas.cryptoviewer.feature.coindetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,5 +1,6 @@
-package com.mayrthomas.cryptoviewer.ui.favorite
+package com.mayrthomas.cryptoviewer.feature.coins
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,14 +18,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mayrthomas.cryptoviewer.R
 import com.mayrthomas.cryptoviewer.ui.views.AnimatedPreloader
 import com.mayrthomas.cryptoviewer.ui.views.CoinListItem
-import com.mayrthomas.cryptoviewer.ui.views.EmptyFavorites
 
 @Composable
-fun FavoriteScreen(
+fun CoinsScreen(
     padding: PaddingValues,
-    viewmodel: FavoritesViewModel,
-    onItemClicked: (String) -> Unit,
-    goToOverviewClicked: () -> Unit
+    viewmodel: CoinsViewModel,
+    onItemClicked: (String) -> Unit
 ) {
     val uiState = viewmodel.uiState.collectAsStateWithLifecycle()
 
@@ -32,30 +32,27 @@ fun FavoriteScreen(
             .fillMaxSize()
             .padding(padding)
     ) {
-        when(uiState.value) {
-            is FavoritesUiState.Loading -> {
+       when(uiState.value) {
+           is CoinsUiState.Loading -> {
                 AnimatedPreloader(
                     modifier = Modifier.size(200.dp).align(Alignment.Center),
                     R.raw.loading_animation
-                )
-            }
-            is FavoritesUiState.Error -> {}
-            is FavoritesUiState.Success -> {
-                val favorites = (uiState.value as FavoritesUiState.Success).favorites
+               )
+           }
+           is CoinsUiState.Error -> {}
+           is CoinsUiState.Success -> {
 
-                if(favorites.isEmpty()) {
-                    EmptyFavorites(goToOverviewClicked)
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize().padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(24.dp)
-                    ) {
-                        items(favorites) { coin ->
-                            CoinListItem(coin,  false, false, onItemClicked)
-                        }
-                    }
-                }
-            }
-        }
+               val coins = (uiState.value as CoinsUiState.Success).coins
+
+               LazyColumn(
+                   modifier = Modifier.fillMaxSize().padding(16.dp),
+                   verticalArrangement = Arrangement.spacedBy(1.dp)
+               ) {
+                   itemsIndexed(coins) { index, coin ->
+                        CoinListItem(coin, index==0, index==coins.size-1, onItemClicked)
+                   }
+               }
+           }
+       }
     }
 }

@@ -1,4 +1,4 @@
-package com.mayrthomas.cryptoviewer.ui.coins
+package com.mayrthomas.cryptoviewer.feature.coins
 
 import com.mayrthomas.cryptoviewer.model.BaseCoin
 

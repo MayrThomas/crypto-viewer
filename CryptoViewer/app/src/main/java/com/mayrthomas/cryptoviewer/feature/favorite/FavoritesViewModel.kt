@@ -1,4 +1,4 @@
-package com.mayrthomas.cryptoviewer.ui.favorite
+package com.mayrthomas.cryptoviewer.feature.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
