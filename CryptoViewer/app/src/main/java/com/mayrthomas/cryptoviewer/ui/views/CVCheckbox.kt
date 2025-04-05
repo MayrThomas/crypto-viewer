@@ -1,7 +1,6 @@
 package com.mayrthomas.cryptoviewer.ui.views
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -18,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CVCheckbox(
     checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit),
+    onCheckedChange: ((Boolean) -> Unit)?,
     enabled: Boolean = true,
 ) {
     val color = MaterialTheme.colorScheme
@@ -26,7 +25,8 @@ fun CVCheckbox(
     val tint = if (checked) color.primary.copy(alpha = 0.8f) else color.background.copy(alpha = 0.8f)
     val background = Color.Transparent
 
-    IconButton(onClick = { onCheckedChange(!checked) },
+    IconButton(
+        onClick = { if(onCheckedChange != null) onCheckedChange(!checked) },
         enabled = enabled) {
 
         Icon(imageVector = imageVector, tint = tint,
