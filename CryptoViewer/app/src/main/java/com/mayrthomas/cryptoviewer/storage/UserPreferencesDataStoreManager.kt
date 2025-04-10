@@ -1,6 +1,7 @@
 package com.mayrthomas.cryptoviewer.storage
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
@@ -21,21 +22,31 @@ class UserPreferencesDataStoreManager(private val context: Context) {
         var CURRENCY_KEY = stringPreferencesKey("currency")
     }
 
-    init {
-        runBlocking {
-            context.preferencesDataStore.edit { preferences ->
-                preferences[CURRENCY_KEY] = "usd"
-            }
-        }
-    }
-
     suspend fun getStringPreference(key: Preferences.Key<String>): String {
-        return context.preferencesDataStore.data.catch { exception ->
+        val value = context.preferencesDataStore.data.catch { exception ->
             if(exception is IOException) {
                 emit(emptyPreferences())
             } else {
                 throw exception
             }
-        }.first()[key] ?: throw NoSuchElementException()
+        }.first()[key]
+
+        return value ?: throw NoSuchElementException()
+    }
+
+    fun isCurrencyAlreadySet(): Boolean = runBlocking {
+        val currency = context.preferencesDataStore.data.first()[CURRENCY_KEY] ?: ""
+
+        return@runBlocking currency.isBlank()
+    }
+
+    fun setCurrency(currencyCode: String) = runBlocking {
+        try {
+            context.preferencesDataStore.edit { preferences ->
+                preferences[CURRENCY_KEY] = currencyCode
+            }
+        } catch (ex: Exception) {
+            Log.e("DATA STORE", ex.localizedMessage)
+        }
     }
 }

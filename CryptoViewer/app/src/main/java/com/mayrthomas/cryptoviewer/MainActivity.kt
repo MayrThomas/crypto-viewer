@@ -26,6 +26,7 @@ import com.mayrthomas.cryptoviewer.feature.favorite.FavoriteScreen
 import com.mayrthomas.cryptoviewer.feature.favorite.FavoritesViewModel
 import com.mayrthomas.cryptoviewer.ui.navigation.Screen
 import com.mayrthomas.cryptoviewer.ui.navigation.navigationItems
+import com.mayrthomas.cryptoviewer.ui.screens.OnboardingScreen
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 import com.mayrthomas.cryptoviewer.ui.views.CVNavigationBar
 
@@ -53,8 +54,14 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.Coins.route
+                        startDestination = Screen.Onboarding.route
                     ) {
+                        composable(route = Screen.Onboarding.route) {
+                            OnboardingScreen(innerPadding, userPreferencesDataStoreManager) {
+                                navController.navigate(Screen.Coins.route)
+                            }
+                        }
+
                         composable(route = Screen.Coins.route) {
                             CoinsScreen(innerPadding, CoinsViewModel(coinRepository, userPreferencesDataStoreManager)) { id ->
                                 navController.navigate(Screen.CoinDetail(id))
