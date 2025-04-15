@@ -20,9 +20,11 @@ import com.mayrthomas.cryptoviewer.model.DetailCoin
 import com.mayrthomas.cryptoviewer.model.ImageData
 import com.mayrthomas.cryptoviewer.model.Links
 import com.mayrthomas.cryptoviewer.model.MarketData
+import com.mayrthomas.cryptoviewer.model.Prices
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 import com.mayrthomas.cryptoviewer.ui.views.CoinDetailFooter
 import com.mayrthomas.cryptoviewer.ui.views.CoinDetailHeader
+import com.mayrthomas.cryptoviewer.ui.views.CoinDetailMarketView
 
 @Composable
 fun CoinDetailScreen(padding: PaddingValues, viewModel: CoinDetailViewModel) {
@@ -34,7 +36,7 @@ fun CoinDetailScreen(padding: PaddingValues, viewModel: CoinDetailViewModel) {
 @Composable
 private fun CoinDetailScreen(padding: PaddingValues, uiState: CoinDetailUiState) {
     Box(
-        modifier = Modifier.fillMaxSize().padding(padding)
+        modifier = Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp)
     ) {
         when(uiState) {
             is CoinDetailUiState.Loading -> {}
@@ -46,7 +48,7 @@ private fun CoinDetailScreen(padding: PaddingValues, uiState: CoinDetailUiState)
                     modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
                     CoinDetailHeader(uiState.coinData)
-
+                    CoinDetailMarketView(uiState.coinData.marketData)
                     Text(uiState.coinData.description.en)
                 }
 
@@ -83,7 +85,7 @@ fun CoinDetailScreenPreview() {
                             ""
                         ),
                         MarketData(
-                            listOf(),
+                            Prices(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,0.0f, 0.0f,0.0f),
                             0.0f,
                             0.0f,
                             0.0f,

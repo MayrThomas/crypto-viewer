@@ -27,6 +27,7 @@ import com.mayrthomas.cryptoviewer.model.DetailCoin
 import com.mayrthomas.cryptoviewer.model.ImageData
 import com.mayrthomas.cryptoviewer.model.Links
 import com.mayrthomas.cryptoviewer.model.MarketData
+import com.mayrthomas.cryptoviewer.model.Prices
 import com.mayrthomas.cryptoviewer.ui.theme.CryptoViewerTheme
 
 @Composable
@@ -38,7 +39,7 @@ fun CoinDetailHeader(detailCoin: DetailCoin, modifier: Modifier = Modifier) {
     ) {
         AsyncImage(
             ImageRequest.Builder(LocalContext.current)
-                .data(detailCoin.image.thumb)
+                .data(detailCoin.image.large)
                 .memoryCachePolicy(CachePolicy.ENABLED)
                 .build(),
             contentDescription = "${detailCoin.name} logo",
@@ -67,7 +68,7 @@ fun CoinDetailHeaderPreview() {
                     Description("This is a very simple Test Coin to showcase the ui"),
                     Links(listOf("1234"), "5678", "98765"),
                     ImageData("", "", ""),
-                    MarketData(listOf(), 0.0f, 0.0f, 0.0f, 0.0f)
+                    MarketData( Prices(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,0.0f, 0.0f,0.0f),0.0f, 0.0f, 0.0f, 0.0f)
                 )
             )
         }
