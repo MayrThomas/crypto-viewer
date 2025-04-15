@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.0"
+browser = "1.8.0"
 coilCompose = "3.1.0"
 coilNetworkOkhttp = "3.1.0"
 datastorePreferences = "1.1.4"
@@ -21,6 +22,7 @@ okhttp = "4.9.1"
 retrofit = "2.7.2"
 
 [libraries]
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastorePreferences" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }

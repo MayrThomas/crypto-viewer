@@ -94,4 +94,7 @@ dependencies {
 
     //kotlin serialization
     implementation(libs.kotlinx.serialization.json)
+
+    //chrome custom tab
+    implementation(libs.androidx.browser)
 }
